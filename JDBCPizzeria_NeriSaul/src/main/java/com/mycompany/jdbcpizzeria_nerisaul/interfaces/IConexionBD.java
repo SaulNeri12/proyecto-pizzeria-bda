@@ -8,8 +8,8 @@ import java.sql.Connection;
 
 /**
  *
- * @author Laboratorios
+ * @author Saul Neri
  */
 public interface IConexionBD {
-    Connection crearConexion();
+    public Connection crearConexion();
 }

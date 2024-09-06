@@ -17,16 +17,16 @@ public class Conexion implements IConexionBD {
 
     String cadenaConexion = "jdbc:mysql://localhost:3306/pizzeria_bda";
     String user = "root";
-    String pwd = "itson";
+    String pwd = "19040042";
     
     @Override
     public Connection crearConexion() {
-       Connection c;
+       Connection c = null;
        
         try {
             c = DriverManager.getConnection(cadenaConexion, user, pwd);
         } catch (SQLException ex) {
-            return null;
+            System.out.println(ex);
         }
         
         return c;

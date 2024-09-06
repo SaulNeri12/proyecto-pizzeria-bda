@@ -24,6 +24,9 @@ public class Producto {
     
     public Producto(long id, String nombre, String descripcion, float precio) {
         this.id = id;
+        this.nombre = nombre;
+        this.descripcion = descripcion;
+        this.precio = precio;
     }
     
     /**
@@ -82,5 +85,12 @@ public class Producto {
         this.precio = precio;
     }
     
+    @Override
+    public String toString() {
+        return String.format(
+                "Producto(id=%d, nombre='%s', descripcion='%s', precio=%.2f)", 
+                this.id, this.nombre, this.descripcion, this.precio
+        );
+    }
     
 }

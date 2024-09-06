@@ -4,21 +4,22 @@
  */
 package com.mycompany.jdbcpizzeria_nerisaul.interfaces;
 
+import com.mycompany.jdbcpizzeria_nerisaul.excepciones.DAOException;
 import com.mycompany.jdbcpizzeria_nerisaul.objetos.Producto;
 import java.util.List;
 
 /**
  *
- * @author Laboratorios
+ * @author Saul Neri
  */
 public interface IProductosDAO {
-    public List<Producto> consultarTodos();
+    public List<Producto> consultarTodos() throws DAOException;
     
-    public Producto consultar(long id);
+    public Producto consultar(long id) throws DAOException;
     
-    public boolean agregar(Producto producto);
+    public void agregar(Producto producto) throws DAOException;
     
-    public boolean actualizar(Producto producto);
+    public void actualizar(Producto producto) throws DAOException;
     
-    public boolean eliminar(long id);
+    public void eliminar(long id) throws DAOException;
 }
