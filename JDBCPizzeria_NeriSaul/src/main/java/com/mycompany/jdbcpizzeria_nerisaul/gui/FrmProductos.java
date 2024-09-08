@@ -11,8 +11,6 @@ import com.mycompany.jdbcpizzeria_nerisaul.interfaces.IConexionBD;
 import com.mycompany.jdbcpizzeria_nerisaul.interfaces.IProductosDAO;
 import com.mycompany.jdbcpizzeria_nerisaul.objetos.Producto;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -35,6 +33,8 @@ public class FrmProductos extends javax.swing.JFrame {
     public FrmProductos() {
         initComponents();
     
+        this.setTitle("Formulario Productos");
+        
         IConexionBD conexion = new Conexion();
         productos = new ProductosDAO(conexion);
         
@@ -183,6 +183,58 @@ public class FrmProductos extends javax.swing.JFrame {
         }
         
         mostrarProductosTabla();
+    }
+    
+    private void actualizarProducto() {
+        if (productoSeleccionado != null) {
+            int opcion = JOptionPane.showConfirmDialog(
+                    this, 
+                    String.format(
+                            "Desea actualizar el producto[id: %d]?", 
+                            productoSeleccionado.getId()
+                    )
+            );
+            
+            String nombreProducto = this.campoTextoNombre.getText();
+            String descripcionProducto = this.campoTextoDescripcion.getText();
+            String precioProducto = this.campoTextoPrecio.getText();
+
+            if (nombreProducto.isBlank() || nombreProducto.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Nombre Erroneo", "Ingresa un nombre para el producto", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+
+            if (descripcionProducto.isBlank() || descripcionProducto.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Descripcion Erronea", "Ingresa la descripcion del producto", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+
+            Float precioProductoFloat = Float.valueOf(precioProducto);
+
+            if (precioProducto.isBlank() || precioProducto.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Precio Erroneo", "Ingresa el precio del producto en el formato correcto", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+
+            if (precioProductoFloat.isNaN() || precioProductoFloat < 0) {
+                JOptionPane.showMessageDialog(this, "Precio Erroneo", "El precio dado es incorrecto", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+            
+            productoSeleccionado.setNombre(nombreProducto);
+            productoSeleccionado.setDescripcion(descripcionProducto);
+            productoSeleccionado.setPrecio(precioProductoFloat);
+            
+            if (opcion == JOptionPane.OK_OPTION) {
+                try {
+                    this.productos.actualizar(productoSeleccionado);
+                    JOptionPane.showMessageDialog(this, "El producto ha sido actualizado con exito");
+                    mostrarProductosTabla();
+                } catch (DAOException ex) {
+                    JOptionPane.showMessageDialog(this, "Actualizar Producto", ex.getMessage(), JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        }
     }
     
     private void eliminarProducto() {
@@ -408,7 +460,7 @@ public class FrmProductos extends javax.swing.JFrame {
     }//GEN-LAST:event_campoTextoNombreActionPerformed
 
     private void btnActualizarProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarProductoActionPerformed
-        // TODO add your handling code here:
+        actualizarProducto();
     }//GEN-LAST:event_btnActualizarProductoActionPerformed
 
     private void btnAgregarProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarProductoActionPerformed
